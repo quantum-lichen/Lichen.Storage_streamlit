@@ -1,0 +1,52 @@
+import React from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+
+interface Props {
+  raidSpeed: number;
+  lichenSpeed: number;
+}
+
+const BenchmarkChart: React.FC<Props> = ({ raidSpeed, lichenSpeed }) => {
+  const data = [
+    { name: 'RAID-6', speed: raidSpeed, color: '#ef4444' },
+    { name: 'CRAID-496', speed: lichenSpeed, color: '#10b981' }, // emerald-500
+  ];
+
+  return (
+    <div className="h-48 w-full mt-4 glass-panel p-4 rounded-lg flex flex-col relative bg-zinc-900/40 border border-emerald-900/30">
+      <h3 className="text-sm font-mono text-emerald-400 mb-2 border-b border-emerald-900/50 pb-1 flex-none">
+        LIVE I/O THROUGHPUT (MB/s)
+      </h3>
+      
+      <div className="flex-1 w-full min-h-0 relative">
+        <div className="absolute inset-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart layout="vertical" data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+              <XAxis type="number" domain={[0, 3000]} hide />
+              <YAxis 
+                dataKey="name" 
+                type="category" 
+                width={80} 
+                tick={{fill: '#94a3b8', fontSize: 12, fontFamily: 'monospace'}} 
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#09090b', borderColor: '#10b981', borderRadius: '4px' }}
+                itemStyle={{ color: '#fff', fontFamily: 'monospace' }}
+                cursor={{fill: 'rgba(255,255,255,0.05)'}}
+              />
+              <Bar dataKey="speed" barSize={20} radius={[0, 4, 4, 0]}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BenchmarkChart;
