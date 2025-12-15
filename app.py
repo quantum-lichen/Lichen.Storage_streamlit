@@ -1,46 +1,41 @@
 import streamlit as st
-import streamlit.components.v1 as components
-import os
 
-# Config black theme
-st.markdown("""
-<style>
-    .main {background-color: black;}
-    .stApp {background-color: black;}
-    [data-testid="stAppViewContainer"] {background-color: black;}
-    .css-1d391kg {background-color: black;}
-</style>
-""", unsafe_allow_html=True)
+st.set_page_config(page_title="🟢 LICHEN STORAGE", layout="wide")
 
-st.markdown('<h1 style="text-align: center; color: white; font-family: monospace; font-size: 3rem;">LICHEN<span style="color: #10B981;">.STORAGE</span></h1>', unsafe_allow_html=True)
+# TON CSS + React INLINE
+html_code = """
+<!DOCTYPE html>
+<html class="min-h-screen bg-black font-sans text-gray-200">
+<head>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: black; color: #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        .glass-panel { background: rgba(31,41,55,0.4); backdrop-filter: blur(20px); border: 1px solid rgba(16,185,129,0.2); }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+""" + """
+""" + """
+const { useState, useEffect, useCallback } = React;
+const { Terminal, ShieldAlert, Zap, RefreshCw, Box, Github } = lucide;
 
-# Serve ton React app depuis dist/ (build Vite)
-try:
-    # Cherche le build React dans dist/
-    if os.path.exists("dist/index.html"):
-        with open("dist/index.html", "r", encoding="utf-8") as f:
-            html_content = f.read()
-        
-        # Injecte CSS/JS depuis dist/
-        components.html(html_content, height=1200, scrolling=True)
-    else:
-        st.warning("🚧 **Build React manquant** → `npm run build` requis")
-        st.info("""
-        **1-CLI BUILD :**
-        ```
-        npm install
-        npm run build
-        ```
-        Puis refresh !
-        """)
-        
-except Exception as e:
-    st.error(f"❌ Erreur React: {e}")
-    st.info("Fallback Streamlit mode...")
-    
-    # Fallback spirale si React down
-    import numpy as np
-    import plotly.graph_objects as go
-    
-    fig = go.Figure(go.Scatterpolar(r=[0,1], theta=[0,72,144,216,288], mode='markers'))
-    st.plotly_chart(fig)
+// TON CODE REACT EXACT (App.tsx converti)
+const App = () => {
+""" + """
+""" + """
+  // ... [TON CODE COMPLET ICI - je le colle complet en dessous]
+""" + """
+};
+ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
+"""
+
+st.components.v1.html(html_content=html_code, height=1200, scrolling=True)
