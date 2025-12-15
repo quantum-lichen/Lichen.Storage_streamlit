@@ -10,7 +10,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# PARTIE 1: Layout + Header
+# Layout + Header + FERMETURE FLEX
 st.markdown("""
 <div style='background: linear-gradient(135deg, #000 0%, #0a0a0a 100%); padding: 2rem; border-radius: 16px; border: 1px solid rgba(16,185,129,0.2); min-height: 90vh; color: white; font-family: monospace;'>
     <h1 style='text-align: center; font-size: 3rem; color: #10B981; font-weight: bold; margin-bottom: 1rem;'>LICHEN<span style='color: white;'>.STORAGE</span></h1>
@@ -19,7 +19,6 @@ st.markdown("""
     <div style='display: flex; gap: 2rem; max-width: 1400px; margin: 0 auto;'>
 """, unsafe_allow_html=True)
 
-# PARTIE 2: Visualizer + Controls
 st.markdown("""
         <div style='flex: 2; background: rgba(31,41,55,0.4); border-radius: 16px; padding: 2rem; position: relative;'>
             <div id='integrity' style='position: absolute; top: 2rem; right: 2rem; font-size: 2rem; font-weight: bold; color: #10B981;'>INTEGRITY: 100%</div>
@@ -31,88 +30,4 @@ st.markdown("""
             
             <div style='background: rgba(31,41,55,0.6); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(16,185,129,0.2); font-size: 0.85rem;'>
                 <div style='margin-bottom: 0.5rem; color: #9ca3af;'>RAID-6 Max Fail</div><div style='color: #ef4444; font-weight: bold;'>2 Drives</div>
-                <div style='margin-top: 1rem; color: #9ca3af;'>Lichen Max Fail</div><div style='color: #10B981; font-weight: bold;'>60% NODES</div>
-                <div style='margin-top: 1rem; color: #9ca3af;'>Rebuild Time</div><div style='color: #10B981; font-weight: bold;'>INSTANT</div>
-            </div>
-
-            <div id='console' style='background: rgba(0,0,0,0.8); padding: 1rem; border-radius: 12px; height: 200px; overflow-y: auto; font-size: 0.75rem; border: 1px solid #333;'>
-                > LichenCluster(10) deployed<br>> φ-topology active<br>> CRAID-496 ready
-            </div>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
-
-# PARTIE 3: Footer + Script
-st.markdown("""
-    <div style='text-align: center; margin-top: 2rem; color: #6b7280; font-size: 0.8rem; padding-bottom: 2rem;'>
-        Built by Lichen Labs | v0.9.2-alpha
-    </div>
-</div>
-
-<script>
-let integrity = 100;
-const consoleEl = document.getElementById('console');
-const integrityEl = document.getElementById('integrity');
-const canvas = document.getElementById('cluster');
-const ctx = canvas.getContext('2d');
-const apocBtn = document.getElementById('apocalypse');
-
-function addLog(msg) {
-    consoleEl.innerHTML += '> ' + msg + '<br>';
-    consoleEl.scrollTop = consoleEl.scrollHeight;
-}
-
-function triggerApocalypse() {
-    apocBtn.disabled = true;
-    apocBtn.innerHTML = '🔄 RECONSTRUCTING...';
-    apocBtn.style.background = 'linear-gradient(45deg, #10B981, #059669)';
-    
-    addLog('⚠️ SIMULATING CATASTROPHIC FAILURE...');
-    integrity = 40;
-    integrityEl.textContent = 'INTEGRITY: ' + integrity + '%';
-    integrityEl.style.color = '#f59e0b';
-    
-    let destroyed = 0;
-    const interval = setInterval(() => {
-        ctx.fillStyle = 'rgba(239,68,68,' + (0.5 - destroyed/30) + ')';
-        ctx.beginPath();
-        ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, 20 + Math.random()*20, 0, Math.PI*2);
-        ctx.fill();
-        destroyed++;
-        if (destroyed > 25) {
-            clearInterval(interval);
-            setTimeout(() => {
-                addLog('✅ CRAID-496: DATA RECOVERED 100%');
-                integrity = 100;
-                integrityEl.textContent = 'INTEGRITY: ' + integrity + '%';
-                integrityEl.style.color = '#10B981';
-                apocBtn.disabled = false;
-                apocBtn.innerHTML = '💥 SIMULATE APOCALYPSE<br><span style="font-size: 0.8rem; opacity: 0.8">KILL 60% NODES</span>';
-                apocBtn.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
-                drawSpiral();
-            }, 1000);
-        }
-    }, 80);
-}
-
-function drawSpiral() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = '#10B981';
-    ctx.lineWidth = 3;
-    ctx.shadowBlur = 20;
-    ctx.shadowColor = '#10B981';
-    ctx.beginPath();
-    for(let i = 0; i < 12; i++) {
-        const angle = i * 0.618 * Math.PI;
-        const r = i * 20;
-        ctx.lineTo(canvas.width/2 + r * Math.cos(angle), canvas.height/2 + r * Math.sin(angle));
-    }
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-}
-
-drawSpiral();
-setInterval(drawSpiral, 3000);
-apocBtn.onclick = triggerApocalypse;
-</script>
-""", unsafe_allow_html=True)
+                <div style='
